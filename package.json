@@ -10,6 +10,7 @@
 		"dist"
 	],
 	"scripts": {
+		"update-deps": "npm-check-updates -u && npm i",
 		"build": "rimraf dist && tsx ./build.ts && npm run copy:package.cjs.json",
 		"copy:package.cjs.json": "shx cp ./package.cjs.json ./dist/cjs/package.json && shx cp ./package.cjs.json ./dist/types/package.json",
 		"lint": "eslint --ext js,ts src",
@@ -88,8 +89,9 @@
 		"node": ">=16.0.0"
 	},
 	"dependencies": {
-		"@maca134/hono-passport": "^1.0.2",
+		"@maca134/hono-passport": "^1.0.3",
 		"@maca134/hono-passport-openid": "^1.0.1",
-		"hono": "^4.1.7"
+		"hono": "^4.1.7",
+		"npm-check-updates": "^16.14.18"
 	}
 }
