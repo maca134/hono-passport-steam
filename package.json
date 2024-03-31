@@ -88,8 +88,8 @@
 		"node": ">=16.0.0"
 	},
 	"dependencies": {
-		"@maca134/hono-passport": "^1.0.1",
-		"@maca134/hono-passport-openid": "^1.0.0",
+		"@maca134/hono-passport": "^1.0.2",
+		"@maca134/hono-passport-openid": "^1.0.1",
 		"hono": "^4.1.7"
 	}
 }
