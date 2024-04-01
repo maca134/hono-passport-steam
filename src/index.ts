@@ -1,6 +1,6 @@
-import { Context } from 'hono';
 import type { Awaitable, HonoPassportStrategy } from '@maca134/hono-passport';
 import { openidStrategy } from '@maca134/hono-passport-openid';
+import type { Context } from 'hono';
 
 export type SteamStrategyOptions = {
 	returnURL: string;
@@ -9,31 +9,33 @@ export type SteamStrategyOptions = {
 };
 
 export type SteamProfile = {
-	steamid: string,
-	communityvisibilitystate: number,
-	profilestate: number,
-	personaname: string,
-	profileurl: string,
-	avatar: string,
-	avatarmedium: string,
-	avatarfull: string,
-	avatarhash: string,
-	lastlogoff: number,
-	personastate: number,
-	realname: string,
-	primaryclanid: string,
-	timecreated: number,
-	personastateflags: number,
+	steamid: string;
+	communityvisibilitystate: number;
+	profilestate: number;
+	personaname: string;
+	profileurl: string;
+	avatar: string;
+	avatarmedium: string;
+	avatarfull: string;
+	avatarhash: string;
+	lastlogoff: number;
+	personastate: number;
+	realname: string;
+	primaryclanid: string;
+	timecreated: number;
+	personastateflags: number;
 };
 
 async function getSteamProfile(options: SteamStrategyOptions, steamId: string) {
-	const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${options.apiKey}&steamids=${steamId}`);
+	const response = await fetch(
+		`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${options.apiKey}&steamids=${steamId}`
+	);
 
 	if (!response.ok) {
 		throw new Error('Failed to fetch steam profile');
 	}
 
-	const data = await response.json() as { response: { players: SteamProfile[] } };
+	const data = (await response.json()) as { response: { players: SteamProfile[] } };
 
 	if (!data.response || !data.response.players || data.response.players.length === 0) {
 		throw new Error('Invalid steam profile');
@@ -44,10 +46,7 @@ async function getSteamProfile(options: SteamStrategyOptions, steamId: string) {
 
 export function steamStrategy<TUser = SteamProfile>(
 	options: SteamStrategyOptions,
-	validate?: (
-		ctx: Context,
-		profile: SteamProfile,
-	) => Awaitable<TUser | undefined>,
+	validate?: (ctx: Context, profile: SteamProfile) => Awaitable<TUser | undefined>
 ): HonoPassportStrategy<TUser> {
 	const strategy = openidStrategy<TUser>(
 		{
@@ -73,7 +72,7 @@ export function steamStrategy<TUser = SteamProfile>(
 			}
 
 			return profile as unknown as TUser;
-		},
+		}
 	);
 	return {
 		...strategy,
