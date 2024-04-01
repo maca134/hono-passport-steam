@@ -46,22 +46,7 @@
 	},
 	"homepage": "https://github.com/maca134/hono-passport-steam",
 	"keywords": [
-		"hono",
-		"web",
-		"app",
-		"http",
-		"application",
-		"framework",
-		"router",
-		"cloudflare",
-		"workers",
-		"fastly",
-		"compute@edge",
-		"deno",
-		"bun",
-		"lagon",
-		"lambda",
-		"nodejs"
+		"hono"
 	],
 	"devDependencies": {
 		"@hono/node-server": "^1.9.1",
