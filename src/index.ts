@@ -1,5 +1,5 @@
 import type { Awaitable, HonoPassportStrategy } from '@maca134/hono-passport';
-import { openidStrategy, PassportStrategyOpenIDError } from '@maca134/hono-passport-openid';
+import { openidStrategy, OpenIDStrategyError } from '@maca134/hono-passport-openid';
 import type { Context } from 'hono';
 
 export type SteamStrategyOptions = {
@@ -26,7 +26,7 @@ export type SteamProfile = {
 	personastateflags: number;
 };
 
-export class PassportStrategySteamError extends PassportStrategyOpenIDError { }
+export class SteamStrategyError extends OpenIDStrategyError { }
 
 async function getSteamProfile(options: SteamStrategyOptions, steamId: string) {
 	const response = await fetch(
@@ -34,13 +34,13 @@ async function getSteamProfile(options: SteamStrategyOptions, steamId: string) {
 	);
 
 	if (!response.ok) {
-		throw new PassportStrategySteamError('Failed to fetch steam profile');
+		throw new SteamStrategyError('Failed to fetch steam profile');
 	}
 
 	const data = (await response.json()) as { response: { players: SteamProfile[] } };
 
 	if (!data.response || !data.response.players || data.response.players.length === 0) {
-		throw new PassportStrategySteamError('Invalid steam profile');
+		throw new SteamStrategyError('Invalid steam profile');
 	}
 
 	return data.response.players[0];
@@ -59,7 +59,7 @@ export function steamStrategy<TUser = SteamProfile>(
 		},
 		async (ctx, identifier) => {
 			if (ctx.req.query('openid.op_endpoint') !== 'https://steamcommunity.com/openid/login') {
-				throw new PassportStrategySteamError('Invalid op_endpoint');
+				throw new SteamStrategyError('Invalid op_endpoint');
 			}
 
 			const match = identifier.match(/^https?:\/\/steamcommunity\.com\/openid\/id\/(\d+)$/);

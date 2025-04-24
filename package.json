@@ -76,7 +76,7 @@
 	},
 	"peerDependencies": {
 		"@maca134/hono-passport": ">=1.*",
-		"@maca134/hono-passport-openid": ">=1.1.0",
+		"@maca134/hono-passport-openid": ">=1.1.1",
 		"hono": ">=4.*"
 	}
 }
